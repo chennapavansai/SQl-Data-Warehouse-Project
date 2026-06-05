@@ -1,3 +1,15 @@
+/*
+===============================================================================
+DDL Script: Create Bronze Tables
+===============================================================================
+Script Purpose:
+    This script creates tables in the 'bronze' schema, dropping existing tables 
+    if they already exist.
+	  Run this script to re-define the DDL structure of 'bronze' Tables
+===============================================================================
+*/
+
+
 --CREATE DATABASE datawarehouse;
 
 use datawarehouse;
@@ -12,14 +24,6 @@ create schema gold;
 IF OBJECT_ID('bronze.crm_cust_info', 'U') IS NOT NULL
     DROP TABLE bronze.crm_cust_info;
 GO
-
-BULK INSERT bronze.crm_cust_info
-FROM 'C:\Users\dell\Desktop\datawarehouse\datasets\source_crm\cust_info.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
-);
 
 CREATE TABLE bronze.crm_cust_info (
     cst_id              INT,
@@ -36,14 +40,6 @@ GO
 IF OBJECT_ID('bronze.crm_prd_info', 'U') IS NOT NULL
     DROP TABLE bronze.crm_prd_info;
 GO
-
-BULK INSERT bronze.crm_prd_info
-FROM 'C:\Users\dell\Desktop\datawarehouse\datasets\source_crm\prd_info.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
-);
 
 CREATE TABLE bronze.crm_prd_info (
     prd_id       INT,
@@ -62,13 +58,7 @@ IF OBJECT_ID('bronze.crm_sales_details', 'U') IS NOT NULL
     DROP TABLE bronze.crm_sales_details;
 GO
 
-BULK INSERT bronze.crm_sales_details
-FROM 'C:\Users\dell\Desktop\datawarehouse\datasets\source_crm\sales_details.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
-);
+
 
 CREATE TABLE bronze.crm_sales_details (
     sls_ord_num  NVARCHAR(50),
@@ -88,15 +78,6 @@ IF OBJECT_ID('bronze.erp_loc_a101', 'U') IS NOT NULL
     DROP TABLE bronze.erp_loc_a101;
 GO
 
-BULK INSERT bronze.erp_loc_a101
-FROM 'C:\Users\dell\Desktop\datawarehouse\datasets\source_erp\loc_a101.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
-);
-
-
 CREATE TABLE bronze.erp_loc_a101 (
     cid    NVARCHAR(50),
     cntry  NVARCHAR(50)
@@ -108,15 +89,6 @@ IF OBJECT_ID('bronze.erp_cust_az12', 'U') IS NOT NULL
     DROP TABLE bronze.erp_cust_az12;
 GO
 
-
-BULK INSERT bronze.erp_cust_az12
-FROM 'C:\Users\dell\Desktop\datawarehouse\datasets\source_erp\cust_az12.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
-);
-
 CREATE TABLE bronze.erp_cust_az12 (
     cid    NVARCHAR(50),
     bdate  DATE,
@@ -124,17 +96,13 @@ CREATE TABLE bronze.erp_cust_az12 (
 );
 GO
 
-BULK INSERT bronze.erp_px_cat_g1v2
-FROM 'C:\Users\dell\Desktop\datawarehouse\datasets\source_erp\px_cat_g1v2.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
-);
+
 
 IF OBJECT_ID('bronze.erp_px_cat_g1v2', 'U') IS NOT NULL
     DROP TABLE bronze.erp_px_cat_g1v2;
 GO
+
+
 
 CREATE TABLE bronze.erp_px_cat_g1v2 (
     id           NVARCHAR(50),
@@ -143,3 +111,11 @@ CREATE TABLE bronze.erp_px_cat_g1v2 (
     maintenance  NVARCHAR(50)
 );
 GO
+
+select * from bronze.crm_cust_info;
+select * from bronze.crm_prd_info;
+select * from bronze.crm_sales_details;
+
+select * from bronze.erp_cust_az12;
+select * from bronze.erp_loc_a101;
+select * from bronze.erp_px_cat_g1v2;
